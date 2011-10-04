@@ -47,6 +47,19 @@ var squalit = {
     this.promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
                                   .getService(Components.interfaces.nsIPromptService);
 
+    try {
+      this.aburi = this.prefs.getCharPref("addressbook");
+      this.homesuffix = this.prefs.getCharPref("homesuffix");
+      this.worksuffix = this.prefs.getCharPref("worksuffix");
+      this.cellsuffix = this.prefs.getCharPref("cellsuffix");
+      this.digits = this.prefs.getIntPref("digits");
+    }
+    catch(err) {
+      this.logger(1, "Error retrieving preferences: " + err.message);
+      this.initialized = false;
+    }
+
+
   },
 
   dbConnection: null,
@@ -73,44 +86,38 @@ var squalit = {
   },
 
   export: function () {
-    var aburi, num;
-
-    try {
-      aburi = this.prefs.getCharPref("addressbook");
-      this.homesuffix = this.prefs.getCharPref("homesuffix");
-      this.worksuffix = this.prefs.getCharPref("worksuffix");
-      this.cellsuffix = this.prefs.getCharPref("cellsuffix");
-      this.digits = this.prefs.getIntPref("digits");
-    }
-    catch(err) {
-      this.logger(1, "Error retrieving preferences: " + err.message);
-      return
-    }
-
     this.dbInit();
-    var numtypes = {"HomePhone":this.homesuffix, "WorkPhone":this.worksuffix, "CellularNumber":this.cellsuffix};
-    var sAddressBook = this.abManager.getDirectory(aburi); 
+    var sAddressBook = this.abManager.getDirectory(this.aburi); 
+    this._exportBook(sAddressBook);
+    this.dbConnection.asyncClose();
+  },
+  
+  _exportCard: function (aCard) {
+	var num;
+	var numtypes = {"HomePhone":this.homesuffix, "WorkPhone":this.worksuffix, "CellularNumber":this.cellsuffix};
+	dName = aCard.getProperty("DisplayName", "Unknown");
+	for (ntype in numtypes) {
+	  num = aCard.getProperty(ntype, "");
+	  if (num != null && num.length >0 ) {
+		num = this.sanitizenumber(num);
+		if (num.length >0) {
+		  squalit.logger(5, dName + " " + numtypes[ntype] + ": " + num);
+		  this.dbUpdate(num, dName + " " + numtypes[ntype]);
+		}
+	  }
+	}
+  },
 
-    var sCards = sAddressBook.childCards;
+  _exportBook: function(aAddressBook) {
+    var sCards = aAddressBook.childCards;
 
     if (sCards != null) {
       var card = null;
       while (sCards.hasMoreElements() && (card = sCards.getNext()) != null) {
         card = card.QueryInterface(Components.interfaces.nsIAbCard);
-        dName = card.getProperty("DisplayName", "Unknown");
-        for (ntype in numtypes) {
-          num = card.getProperty(ntype, "");
-          if (num != null && num.length >0 ) {
-            num = this.sanitizenumber(num);
-            if (num.length >0) {
-              squalit.logger(5, dName + " " + numtypes[ntype] + ": " + num);
-              this.dbUpdate(num, dName + " " + numtypes[ntype]);
-            }
-          }
-        }
+        this._exportCard(card);
       }
     }
-    this.dbConnection.asyncClose();
   },
 
   listbooks: function () {
@@ -132,7 +139,7 @@ var squalit = {
 
     var dbFile = dirService.get("Home", Components.interfaces.nsIFile);
     dbFile.append(".pyCalledMe");
-    dbFile.append("squalit.sqlite");
+    dbFile.append("squalit2.sqlite");
 
     var dbService = Components.classes["@mozilla.org/storage/service;1"].
       getService(Components.interfaces.mozIStorageService);
