@@ -1,2 +1,4 @@
 <!ENTITY squalit.export.tip "Export the address book to an SQLLite database for use by pycalledme">
 <!ENTITY squalit.export.label "Export for pycalledme">
+<!ENTITY squalit.exportone.label "Export contact(s) for pycalledme">
+<!ENTITY squalit.exportdir.label "Export address book for pycalledme">

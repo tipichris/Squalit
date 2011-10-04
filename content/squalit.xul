@@ -55,7 +55,17 @@
 
 	<menupopup id="taskPopup">
         <menuseparator/>
-		<menuitem id="SyncKolab-Sync" command="cmd_squalit_export" label="&squalit.export.label;"/>
+		<menuitem id="squalit-exportall" command="cmd_squalit_export" label="&squalit.export.label;"/>
 <!--		<menuitem id="SyncKolab-Options" command="cmd_synckolab_options" label="&synckolab.optionMenu.label;"/> -->
 	</menupopup>
+	
+  <menupopup id="abResultsTreeContext">
+    <menuitem id="squalit-contextmenu-exportonecard" label="&squalit.exportone.label;" 
+              oncommand="squalit.exportSelectedCards();"/>
+  </menupopup>
+
+  <menupopup id="dirTreeContext">
+    <menuitem id="squalit-contextmenu-exportdir" label="&squalit.exportdir.label;" 
+              oncommand="squalit.exportSelectedDirectory();"/>
+  </menupopup>
 </overlay>

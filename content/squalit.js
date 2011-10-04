@@ -59,6 +59,8 @@ var squalit = {
       this.initialized = false;
     }
 
+    // listen for changes of selected cards
+    // document.getElementById("abResultsTree").addEventListener("select", this.onSelectNewRow, true);
 
   },
 
@@ -91,7 +93,29 @@ var squalit = {
     this._exportBook(sAddressBook);
     this.dbConnection.asyncClose();
   },
-  
+
+  exportSelectedCards: function () {
+    var cards = GetSelectedAbCards();
+    if (cards != null) {
+	  this.dbInit();
+	  for (x in cards) {
+		this._exportCard(cards[x]);
+	  }
+	  this.dbConnection.asyncClose();
+    }
+  },
+
+  exportSelectedDirectory: function() {
+    var sABuri = GetSelectedDirectory();
+    var addressBook = this.abManager.getDirectory(sABuri); 
+    if (addressBook != null) {
+      squalit.logger(3, "Exporting from " + addressBook.dirName);
+      this.dbInit();
+      this._exportBook(addressBook);
+      this.dbConnection.asyncClose();
+    }
+  },
+
   _exportCard: function (aCard) {
 	var num;
 	var numtypes = {"HomePhone":this.homesuffix, "WorkPhone":this.worksuffix, "CellularNumber":this.cellsuffix};
@@ -179,7 +203,7 @@ var squalit = {
         if (aReason != Components.interfaces.mozIStorageStatementCallback.REASON_FINISHED)
           squalit.logger(1, "Query canceled or aborted!" + aReason.message);
       }
-    })
+    });
   },
 
   sanitizenumber: function(num) {
@@ -187,7 +211,7 @@ var squalit = {
     num = num.replace(/[^0-9]/g,'');
     num = num.substr(-this.digits, this.digits);
     return num;
-  }
+  },
 
 };
 
