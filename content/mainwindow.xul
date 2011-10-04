@@ -36,16 +36,16 @@
   - 
   - ***** END LICENSE BLOCK ***** -->
 <!DOCTYPE overlay SYSTEM "chrome://squalit/locale/squalit.dtd">
-<overlay id="squalit-overlay"
+<overlay id="squalit-main-overlay"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script src="squalit.js"/>
-  <script src="abwindow.js" />
+  <script src="mainwindow.js" />
 
   <stringbundleset id="stringbundleset">
     <stringbundle id="squalit-strings" src="chrome://squalit/locale/squalit.properties"/>
   </stringbundleset>
   
-	<commandset id="addressBook">
+	<commandset id="mailCommands">
 		<command id="cmd_squalit_export"
 			tooltiptext="&squalit.export.tip;"
 			oncommand="squalit.export();"/>
@@ -60,13 +60,5 @@
 <!--		<menuitem id="SyncKolab-Options" command="cmd_synckolab_options" label="&synckolab.optionMenu.label;"/> -->
 	</menupopup>
 	
-  <menupopup id="abResultsTreeContext">
-    <menuitem id="squalit-contextmenu-exportonecard" label="&squalit.exportone.label;" 
-              oncommand="squalit.exportSelectedCards();"/>
-  </menupopup>
 
-  <menupopup id="dirTreeContext">
-    <menuitem id="squalit-contextmenu-exportdir" label="&squalit.exportdir.label;" 
-              oncommand="squalit.exportSelectedDirectory();"/>
-  </menupopup>
 </overlay>

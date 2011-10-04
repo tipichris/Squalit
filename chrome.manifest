@@ -1,4 +1,4 @@
 content	squalit	content/
 locale	squalit	en-US	locale/en-US/
 overlay	chrome://messenger/content/addressbook/addressbook.xul	chrome://squalit/content/squalit.xul
-
+overlay	chrome://messenger/content/messenger.xul	chrome://squalit/content/mainwindow.xul

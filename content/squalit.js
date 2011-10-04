@@ -43,6 +43,8 @@ var squalit = {
     this.strings = document.getElementById("squalit-strings");
     this.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.squalit.");
     this.console = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
+    squalit.logger(5, "Initialising");
+    
     this.abManager = Components.classes["@mozilla.org/abmanager;1"].getService(Components.interfaces.nsIAbManager);
     this.promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
                                   .getService(Components.interfaces.nsIPromptService);
@@ -53,15 +55,24 @@ var squalit = {
       this.worksuffix = this.prefs.getCharPref("worksuffix");
       this.cellsuffix = this.prefs.getCharPref("cellsuffix");
       this.digits = this.prefs.getIntPref("digits");
+      this.refreshint = this.prefs.getIntPref("refreshint");
     }
     catch(err) {
       this.logger(1, "Error retrieving preferences: " + err.message);
       this.initialized = false;
     }
 
+
     // listen for changes of selected cards
     // document.getElementById("abResultsTree").addEventListener("select", this.onSelectNewRow, true);
 
+  },
+  
+  onLoadMain: function() {
+    this.onLoad();
+    if (this.refreshint) {
+      this.intervalID = window.setInterval(this.autoExport.bind(this), this.refreshint * 1000 * 60);
+    }
   },
 
   dbConnection: null,
@@ -92,6 +103,11 @@ var squalit = {
     var sAddressBook = this.abManager.getDirectory(this.aburi); 
     this._exportBook(sAddressBook);
     this.dbConnection.asyncClose();
+  },
+  
+  autoExport: function() {
+    squalit.logger(3, "Running auto export");
+    this.export();
   },
 
   exportSelectedCards: function () {
@@ -215,4 +231,3 @@ var squalit = {
 
 };
 
-window.addEventListener("load", function(e) { squalit.onLoad(e); }, false);

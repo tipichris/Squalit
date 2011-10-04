@@ -5,3 +5,5 @@ pref( "extensions.squalit.worksuffix", "(w)" );
 pref( "extensions.squalit.homesuffix", "(h)" );
 pref( "extensions.squalit.cellsuffix", "(m)" );
 pref( "extensions.squalit.digits", 10 );
+pref( "extensions.squalit.refreshint", 2 );
+
