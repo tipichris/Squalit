@@ -18,7 +18,7 @@
     <em:creator>Chris Hastie</em:creator>
     <em:homepageURL>http://www.oak-wood.co.uk/</em:homepageURL>
     <em:type>2</em:type>
-    <!-- <em:updateURL>https://secure.raggedstaff.net/tbdialout/update.rdf</em:updateURL> -->
+    <em:updateURL>https://secure.raggedstaff.net/squalit/update.rdf</em:updateURL>
     <em:optionsURL>chrome://squalit/content/options.xul</em:optionsURL>
 
     <em:targetApplication>

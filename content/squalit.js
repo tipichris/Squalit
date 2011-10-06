@@ -11,7 +11,7 @@
   * for the specific language governing rights and limitations under the
   * License.
   *
-  * The Original Code is TBDialOut.
+  * The Original Code is squalit
   *
   * The Initial Developer of the Original Code is
   * Chris Hastie http://www.oak-wood.co.uk
