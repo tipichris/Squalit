@@ -5,5 +5,5 @@ pref( "extensions.squalit.worksuffix", "chrome://squalit/locale/squalit.properti
 pref( "extensions.squalit.homesuffix", "chrome://squalit/locale/squalit.properties" );
 pref( "extensions.squalit.cellsuffix", "chrome://squalit/locale/squalit.properties" );
 pref( "extensions.squalit.digits", 10 );
-pref( "extensions.squalit.refreshint", 60 );
+pref( "extensions.squalit.refreshint", 2 );
 

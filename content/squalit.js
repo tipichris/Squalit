@@ -77,7 +77,7 @@ var squalit = {
     this.onLoad();
     this.isMain = true;
     if (this.refreshint) {
-      this.intervalID = window.setInterval(this.autoExport.bind(this), this.refreshint * 1000 * 60);
+      this.intervalID = window.setInterval(this.autoExport(this), this.refreshint * 1000 * 60);
     }
   },
 
@@ -153,9 +153,11 @@ var squalit = {
     this.dbConnection.asyncClose();
   },
 
-  autoExport: function() {
+  // obj should be this. Used because setTimeout executes in a different context
+  // so this references the wrong object. 
+  autoExport: function(obj) {
     squalit.logger(3, "Running auto export");
-    this.export();
+    obj.export();
   },
 
   exportSelectedCards: function () {
