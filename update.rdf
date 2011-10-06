@@ -8,7 +8,7 @@
       <RDF:Seq>
         <RDF:li>
           <RDF:Description>
-            <em:version>0.1</em:version>
+            <em:version>0.1a</em:version>
 
             <!-- One targetApplication for each application the add-on is compatible with -->
             <em:targetApplication>
