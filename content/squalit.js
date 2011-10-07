@@ -77,7 +77,7 @@ var squalit = {
     this.onLoad();
     this.isMain = true;
     if (this.refreshint) {
-      this.intervalID = window.setInterval(this.autoExport(this), this.refreshint * 1000 * 60);
+      this.intervalID = window.setInterval(this.autoExport, this.refreshint * 1000 * 60, this);
     }
   },
 
