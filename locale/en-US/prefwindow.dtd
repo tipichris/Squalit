@@ -1,34 +1,16 @@
-<!-- do not translate extension name: TBDialOut -->
-<!ENTITY tbdoprefwindow.title "TBDialOut preferences">
-<!ENTITY tbdopane1.title "TBDialOut preferences">
-<!ENTITY tbdoproto_menu.label "URL Scheme to use">
-<!ENTITY tbdoproto_menu.accesskey "U">
-<!ENTITY tbdoprefix_text.label "Prefix called numbers with">
-<!ENTITY tbdoprefix_text.accesskey "P">
-<!ENTITY tbdoplus_text.label "Replace leading + with">
-<!ENTITY tbdoplus_text.accesskey "R">
-<!ENTITY tbdocustomurl_text.label "Custom URL">
-<!ENTITY tbdocustomurl_text.accesskey "C">
-<!ENTITY tbdocustomuser_text.label "User name">
-<!ENTITY tbdocustomuser_text.accesskey "s">
-<!ENTITY tbdocustompass_text.label "Password">
-<!ENTITY tbdocustompass_text.accesskey "w">
-<!-- do not translate &#37;NUM&#37; -->
-<!ENTITY tbdocustomhint_text "Enter a custom URL for TBDialOut to contact. Replace the phone number with &#37;NUM&#37;" >
-<!ENTITY tbdocustomurl_menu.label  "Custom URL">
-<!ENTITY tbdocustomurl_boxcaption.label "Custom URL options">
-<!-- options relating to the Asterisk Manager Interface -->
-<!ENTITY tbdoasteriskami_menu.label "Asterisk AMI">
-<!ENTITY tbdoami_boxcaption.label "Asterisk AMI options">
-<!ENTITY tbdoamihost_text.label "Host">
-<!ENTITY tbdoamihost_text.accesskey "H">
-<!ENTITY tbdoamiport_text.label "Port">
-<!ENTITY tbdoamiport_text.accesskey "o">
-<!ENTITY tbdoamiuser_text.label "User name">
-<!ENTITY tbdoamiuser_text.accesskey "n">
-<!ENTITY tbdoamisecret_text.label "Secret">
-<!ENTITY tbdoamisecret_text.accesskey "t">
-<!ENTITY tbdoamichannel_text.label "Originating channel">
-<!ENTITY tbdoamichannel_text.accesskey "l">
-<!ENTITY tbdoamicontext_text.label "Context">
-<!ENTITY tbdoamicontext_text.accesskey "x">
+<!-- do not translate extension name: Squalit, or name of callPopPy -->
+<!ENTITY squalit.prefwindow.title "Squalit preferences: export options for callPopPy">
+<!ENTITY squalit.pane1.title "Squalit preferences: export options for callPopPy">
+<!ENTITY squalit.worksuff.label "Work numbers">
+<!ENTITY squalit.worksuff.accesskey "W">
+<!ENTITY squalit.homesuff.label "Home numbers">
+<!ENTITY squalit.homesuff.accesskey "H">
+<!ENTITY squalit.cellsuff.label "Mobile numbers">
+<!ENTITY squalit.cellsuff.accesskey "M">
+<!ENTITY squalit.refreshint.label "Update interval (minutes). 0 disables auto update">
+<!ENTITY squalit.refreshint.accesskey "U">
+<!ENTITY squalit.addressbook.label "Address book(s) for auto export">
+<!ENTITY squalit.addressbook.accesskey "A">
+<!ENTITY squalit.nameformat.label "Format for exported names">
+<!-- Do not translate &#37;N&#37; -->
+<!ENTITY squalit.namehint.label "&#37;N&#37; will be replaced with the contact's display name">

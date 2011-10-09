@@ -1,0 +1,105 @@
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!-- ***** BEGIN LICENSE BLOCK *****
+  -   Version: MPL 1.1/GPL 2.0/LGPL 2.1
+  -
+  - The contents of this file are subject to the Mozilla Public License Version
+  - 1.1 (the "License"); you may not use this file except in compliance with
+  - the License. You may obtain a copy of the License at
+  - http://www.mozilla.org/MPL/
+  - 
+  - Software distributed under the License is distributed on an "AS IS" basis,
+  - WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+  - for the specific language governing rights and limitations under the
+  - License.
+  -
+  - The Original Code is Squalit.
+  -
+  - The Initial Developer of the Original Code is
+  - Chris Hastie. http://www.oak-wood.co.uk
+  - Portions created by the Initial Developer are Copyright (C) 2011
+  - the Initial Developer. All Rights Reserved.
+  -
+  - Contributor(s):
+  -
+  - Alternatively, the contents of this file may be used under the terms of
+  - either the GNU General Public License Version 2 or later (the "GPL"), or
+  - the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+  - in which case the provisions of the GPL or the LGPL are applicable instead
+  - of those above. If you wish to allow use of your version of this file only
+  - under the terms of either the GPL or the LGPL, and not to allow others to
+  - use your version of this file under the terms of the MPL, indicate your
+  - decision by deleting the provisions above and replace them with the notice
+  - and other provisions required by the GPL or the LGPL. If you do not delete
+  - the provisions above, a recipient may use your version of this file under
+  - the terms of any one of the MPL, the GPL or the LGPL.
+  - 
+  - ***** END LICENSE BLOCK ***** -->
+
+<!DOCTYPE prefwindow SYSTEM "chrome://squalit/locale/prefwindow.dtd">
+<prefwindow id="squalitPreferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="&squalit.prefwindow.title;" buttons="accept,cancel">
+  <prefpane id="squalitPrefPane1" label="&squalit.pane1.title;" onpaneload="squalitprefs.onLoad()">
+
+    <preferences>
+      <preference id="dbfile_pref" name="extensions.squalit.dbfile" type="string"/>
+      <preference id="abook_pref" name="extensions.squalit.addressbook" type="string"/>
+      <preference id="worksuff_pref" name="extensions.squalit.worksuffix" type="string"/>
+      <preference id="homesuff_pref" name="extensions.squalit.homesuffix" type="string"/>
+      <preference id="cellsuff_pref" name="extensions.squalit.cellsuffix" type="string"/>
+      <preference id="refreshint_pref" name="extensions.squalit.refreshint" type="int"/>
+    </preferences>
+    <commandset><command id="squalit_updateab" oncommand="squalitprefs.updateab()"/></commandset>
+
+
+    <groupbox id="abook_list">
+      <caption label="&squalit.addressbook.label;" />
+    </groupbox>
+
+    <grid flex="1">
+
+      <columns>
+        <column flex="1"/>
+        <column flex="2"/>
+      </columns>
+
+      <rows>
+        <row align="center">
+          <label control="refreshint_text" value="&squalit.refreshint.label;:" accesskey="&squalit.refreshint.accesskey;"/>
+          <textbox id="refreshint_text" preference="refreshint_pref" size="2" />
+        </row>
+      </rows>
+    </grid>
+
+    <groupbox id="squalit-name-format-box">
+      <caption label="&squalit.nameformat.label;" />
+      <label class="tbdocustomoptions" value="&squalit.namehint.label;" />
+	  <grid flex="1">
+
+		<columns>
+		  <column flex="1"/>
+		  <column flex="2"/>
+		</columns>
+		
+		<rows>
+		  <row align="center">
+			<label control="worksuff_text" value="&squalit.worksuff.label;:" accesskey="&squalit.worksuff.accesskey;"/>
+			<textbox id="worksuff_text" preference="worksuff_pref" size="5" onsyncfrompreference="return squalitprefs.suffix('worksuffix')"/>
+		  </row>
+
+		  <row align="center">
+			<label control="homesuff_text" value="&squalit.homesuff.label;:" accesskey="&squalit.homesuff.accesskey;"/>
+			<textbox id="homesuff_text" preference="homesuff_pref" size="5" onsyncfrompreference="return squalitprefs.suffix('homesuffix')"/>
+		  </row>
+
+		  <row align="center">
+			<label control="cellsuff_text" value="&squalit.cellsuff.label;:" accesskey="&squalit.cellsuff.accesskey;"/>
+			<textbox id="cellsuff_text" preference="cellsuff_pref" size="5" onsyncfrompreference="return squalitprefs.suffix('cellsuffix')"/>
+		  </row>
+
+		</rows>
+	  </grid>
+	</groupbox>
+
+  </prefpane>
+  <script src="options.js"/>
+  <script src="squalit.js"/>
+</prefwindow>

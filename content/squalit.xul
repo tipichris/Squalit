@@ -49,15 +49,17 @@
 		<command id="cmd_squalit_export"
 			tooltiptext="&squalit.export.tip;"
 			oncommand="squalit.export();"/>
-<!--		<command id="cmd_synckolab_options"
-	        oncommand="window.open('chrome://synckolab/content/synckolabPref.xul', 'options', 'chrome,resizable=1');"/>
--->
+    	<command id="cmd_squalit_options"
+	        oncommand="window.open('chrome://squalit/content/options.xul', 'options', 'chrome,resizable=1');"/>
+        <command id="cmd_squalit_reset"
+            oncommand="squalit.dbReset();"/>
 	</commandset>
 
 	<menupopup id="taskPopup">
         <menuseparator/>
 		<menuitem id="squalit-exportall" command="cmd_squalit_export" label="&squalit.export.label;"/>
-<!--		<menuitem id="SyncKolab-Options" command="cmd_synckolab_options" label="&synckolab.optionMenu.label;"/> -->
+		<menuitem id="squalit-reset" command="cmd_squalit_reset" label="&squalit.reset.label;"/>
+		<menuitem id="squalit-options" command="cmd_squalit_options" label="&squalit.optionmenu.label;"/> 
 	</menupopup>
 	
   <menupopup id="abResultsTreeContext">

@@ -54,7 +54,7 @@ var squalit = {
                                   .getService(Components.interfaces.nsIPromptService);
 
     try {
-      this.aburi = this.prefs.getCharPref("addressbook");
+      this.abpref = this.prefs.getCharPref("addressbook");
       this.homesuffix = this.prefs.getComplexValue("homesuffix", Components.interfaces.nsIPrefLocalizedString).data;
       this.worksuffix = this.prefs.getComplexValue("worksuffix", Components.interfaces.nsIPrefLocalizedString).data;
       this.cellsuffix = this.prefs.getComplexValue("cellsuffix", Components.interfaces.nsIPrefLocalizedString).data;
@@ -85,11 +85,10 @@ var squalit = {
       if (topic != "nsPref:changed") {
         return;
       }
-
+      squalit.logger(5, "Caught change to preference " + data);
       switch(data) {
         case "addressbook":
-          this.aburi = this.prefs.getCharPref(data);
-          this.refreshInformation();
+          this.abpref = this.prefs.getCharPref(data);
           break;
 
         case "homesuffix":
@@ -147,9 +146,8 @@ var squalit = {
   },
 
   export: function () {
-    this.dbInit();
-    var sAddressBook = this.abManager.getDirectory(this.aburi);
-    this._exportBook(sAddressBook);
+    this._dbInit();
+    this._export();
     this.dbConnection.asyncClose();
   },
 
@@ -163,7 +161,7 @@ var squalit = {
   exportSelectedCards: function () {
     var cards = GetSelectedAbCards();
     if (cards != null) {
-      this.dbInit();
+      this._dbInit();
       for (x in cards) {
         this._exportCard(cards[x]);
       }
@@ -176,9 +174,21 @@ var squalit = {
     var addressBook = this.abManager.getDirectory(sABuri);
     if (addressBook != null) {
       squalit.logger(3, "Exporting from " + addressBook.dirName);
-      this.dbInit();
+      this._dbInit();
       this._exportBook(addressBook);
       this.dbConnection.asyncClose();
+    }
+  },
+  
+  _export: function() {
+    var abArray = this.abpref.split(',');
+    for (n in abArray) {
+      squalit.logger(5, "Going to export from " + abArray[n]);
+      var sAddressBook = this.abManager.getDirectory(abArray[n]);
+      if (sAddressBook != null) {
+        squalit.logger(3, "Exporting from " + sAddressBook.dirName);
+        this._exportBook(sAddressBook);
+      }
     }
   },
 
@@ -191,8 +201,9 @@ var squalit = {
       if (num != null && num.length >0 ) {
         num = this.sanitizenumber(num);
         if (num.length >0) {
-          squalit.logger(5, dName + " " + numtypes[ntype] + ": " + num);
-          this.dbUpdate(num, dName + " " + numtypes[ntype]);
+          var strName = numtypes[ntype].replace(/%N%/,dName);
+          squalit.logger(5, strName + ": " + num);
+          this._dbUpdate(num, strName);
         }
       }
     }
@@ -210,21 +221,8 @@ var squalit = {
     }
   },
 
-  listbooks: function () {
-    var allAddressBooks = this.abManager.directories;
-
-    while (allAddressBooks.hasMoreElements()) {
-      var addressBook = allAddressBooks.getNext()
-                                    .QueryInterface(Components.interfaces.nsIAbDirectory);
-      if (addressBook instanceof Components.interfaces.nsIAbDirectory) {
-        squalit.logger(5, "Directory Name:" + addressBook.dirName);
-        squalit.logger(5, "Directory URI:" + addressBook.URI);
-      }
-    }
-  },
-
-  dbInit: function() {
-    squalit.logger(3, "Exporting to " +  this.dbFile.path);
+  _dbInit: function() {
+    squalit.logger(3, "Using database " +  this.dbFile.path);
 
     var dbService = Components.classes["@mozilla.org/storage/service;1"].
       getService(Components.interfaces.mozIStorageService);
@@ -250,7 +248,7 @@ var squalit = {
       aDBConnection.createTable(name, this.dbSchema.tables[name]);
   },
 
-  dbUpdate: function(sNum, sName) {
+  _dbUpdate: function(sNum, sName) {
     var sql = this.dbConnection.createStatement("REPLACE INTO numbers VALUES (null, :tel, :name)");
     sql.params.tel = sNum;
     sql.params.name = sName;
@@ -266,12 +264,44 @@ var squalit = {
       }
     });
   },
+  
+  dbReset: function() {
+    this._dbInit();
+    squalit.logger(3, "Truncating database");
+    var sql = this.dbConnection.createStatement("DELETE FROM numbers");
+    sql.executeAsync({
+      handleError: function(aError) {
+        squalit.logger(1, "Error: " + aError.message);
+      },
+
+      handleCompletion: function(aReason) {
+        if (aReason != Components.interfaces.mozIStorageStatementCallback.REASON_FINISHED)
+          squalit.logger(1, "Query canceled or aborted!" + aReason.message);
+      }
+    });
+    this._export();
+    this.dbConnection.asyncClose();
+  },
 
   sanitizenumber: function(num) {
     num = num.replace(/^\+/g, '00');
     num = num.replace(/[^0-9]/g,'');
     num = num.substr(-this.digits, this.digits);
     return num;
+  },
+
+
+  listbooks: function () {
+    var allAddressBooks = this.abManager.directories;
+
+    while (allAddressBooks.hasMoreElements()) {
+      var addressBook = allAddressBooks.getNext()
+                                    .QueryInterface(Components.interfaces.nsIAbDirectory);
+      if (addressBook instanceof Components.interfaces.nsIAbDirectory) {
+        squalit.logger(5, "Directory Name:" + addressBook.dirName);
+        squalit.logger(5, "Directory URI:" + addressBook.URI);
+      }
+    }
   },
 
 };
