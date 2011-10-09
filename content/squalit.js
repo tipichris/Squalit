@@ -179,7 +179,7 @@ var squalit = {
       this.dbConnection.asyncClose();
     }
   },
-  
+
   _export: function() {
     var abArray = this.abpref.split(',');
     for (n in abArray) {
@@ -238,6 +238,7 @@ var squalit = {
   },
 
   _dbCreate: function(aDBService, aDBFile) {
+    aDBFile.create(Components.interfaces.nsIFile.NORMAL_FILE_TYPE, 0600);
     var dbConnection = aDBService.openDatabase(aDBFile);
     this._dbCreateTables(dbConnection);
     return dbConnection;
