@@ -146,9 +146,19 @@ var squalit = {
   },
 
   export: function () {
-    this._dbInit();
-    this._export();
-    this.dbConnection.asyncClose();
+    if (this.abpref.length > 0) {
+      var abArray = this.abpref.split(',');
+      this._dbInit();
+      this._export(abArray);
+      this.dbConnection.asyncClose();
+    }
+    else {
+      var doConfig = this.promptService.confirm(window, this.strings.getString("noAbConfiguredTitle"),
+                               this.strings.getString("noAbConfigured") );
+      if (doConfig) {
+        window.open('chrome://squalit/content/options.xul', 'options', 'chrome,resizable=1');
+      }
+    }
   },
 
   // obj should be this. Used because setTimeout executes in a different context
@@ -180,8 +190,7 @@ var squalit = {
     }
   },
 
-  _export: function() {
-    var abArray = this.abpref.split(',');
+  _export: function(abArray) {
     for (n in abArray) {
       squalit.logger(5, "Going to export from " + abArray[n]);
       var sAddressBook = this.abManager.getDirectory(abArray[n]);
