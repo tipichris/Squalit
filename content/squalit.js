@@ -259,7 +259,7 @@ var squalit = {
   },
 
   _dbUpdate: function(sNum, sName) {
-    var sql = this.dbConnection.createStatement("REPLACE INTO numbers VALUES (null, :tel, :name)");
+    var sql = this.dbConnection.createStatement("REPLACE INTO numbers (tel, name) VALUES (:tel, :name)");
     sql.params.tel = sNum;
     sql.params.name = sName;
 
