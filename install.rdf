@@ -14,7 +14,7 @@
 
     <em:name>Squalit</em:name>
     <em:description>Export address book entries to an SQLLite database for use by pycalledme</em:description>
-    <em:version>0.1a</em:version>
+    <em:version>0.1.0rc1</em:version>
     <em:creator>Chris Hastie</em:creator>
     <em:homepageURL>http://www.oak-wood.co.uk/</em:homepageURL>
     <em:type>2</em:type>
