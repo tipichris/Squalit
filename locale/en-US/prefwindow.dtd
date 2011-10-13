@@ -5,8 +5,8 @@
 <!ENTITY squalit.worksuff.accesskey "W">
 <!ENTITY squalit.homesuff.label "Home numbers">
 <!ENTITY squalit.homesuff.accesskey "H">
-<!ENTITY squalit.cellsuff.label "Mobile numbers">
-<!ENTITY squalit.cellsuff.accesskey "M">
+<!ENTITY squalit.cellsuff.label "Cell phone numbers">
+<!ENTITY squalit.cellsuff.accesskey "C">
 <!ENTITY squalit.refreshint.label "Update interval (minutes). 0 disables auto update">
 <!ENTITY squalit.refreshint.accesskey "U">
 <!ENTITY squalit.addressbook.label "Address book(s) for auto export">

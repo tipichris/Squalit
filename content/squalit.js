@@ -67,10 +67,6 @@ var squalit = {
       this.initialized = false;
     }
 
-
-    // listen for changes of selected cards
-    // document.getElementById("abResultsTree").addEventListener("select", this.onSelectNewRow, true);
-
   },
 
   onLoadMain: function() {
