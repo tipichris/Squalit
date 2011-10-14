@@ -137,7 +137,19 @@ var squalit = {
   // 5: Even more debug
   logger: function (level, msg) {
     if( this.prefs.getIntPref("loglevel") >= level ) {
-      this.console.logStringMessage("[Squalit] " + msg);
+      function formattime(s) {
+        function pad(n, d) {
+          d = d;
+          n = n + '';
+          while (n.length < d) n = '0' + n;
+          return n;
+        };
+        return pad(s.getHours(),2)+':'
+          +pad(s.getMinutes(),2)+':'
+          +pad(s.getSeconds(),2)+'.'
+          +pad(s.getMilliseconds(),3)
+      }
+      this.console.logStringMessage("[Squalit] " + formattime(new Date()) + ": " + msg);
     }
   },
 
