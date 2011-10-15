@@ -1,0 +1,9 @@
+Squalit is Thunderbird extension that is intended as a companion 
+program to callPopPy (http://www.oak-wood.co.uk/callpoppy/).
+
+callPopPy is an incoming call popup notifier for the Asterisk server
+(http://www.asterisk.org/). Squalit exports the contents of 
+Thunderird's address book to a SQLite database, in a format that allows
+callPopPy to look up the name of an incoming caller and display that.
+
+Squalit can be configured to periodically update callPopPy's database.
