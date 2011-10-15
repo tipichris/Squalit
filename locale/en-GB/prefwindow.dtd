@@ -1,0 +1,16 @@
+<!-- do not translate extension name: Squalit, or name of callPopPy -->
+<!ENTITY squalit.prefwindow.title "Squalit preferences: export options for callPopPy">
+<!ENTITY squalit.pane1.title "Squalit preferences: export options for callPopPy">
+<!ENTITY squalit.worksuff.label "Work numbers">
+<!ENTITY squalit.worksuff.accesskey "W">
+<!ENTITY squalit.homesuff.label "Home numbers">
+<!ENTITY squalit.homesuff.accesskey "H">
+<!ENTITY squalit.cellsuff.label "Mobile numbers">
+<!ENTITY squalit.cellsuff.accesskey "M">
+<!ENTITY squalit.refreshint.label "Update interval (minutes). 0 disables auto update">
+<!ENTITY squalit.refreshint.accesskey "U">
+<!ENTITY squalit.addressbook.label "Address book(s) for auto export">
+<!ENTITY squalit.addressbook.accesskey "A">
+<!ENTITY squalit.nameformat.label "Format for exported names">
+<!-- Do not translate &#37;N&#37; -->
+<!ENTITY squalit.namehint.label "&#37;N&#37; will be replaced with the contact's display name">
