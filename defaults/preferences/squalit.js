@@ -1,4 +1,4 @@
-pref( "extensions.squalit.dbfile", "[Home].callpoppy/numbers.db" );
+pref( "extensions.squalit.dbfile", "[Home].callpoppy/callpoppy.db" );
 pref( "extensions.squalit.addressbook", "");
 pref( "extensions.squalit.loglevel", 3 );
 pref( "extensions.squalit.worksuffix", "chrome://squalit/locale/squalit.properties" );
