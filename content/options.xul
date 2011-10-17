@@ -46,6 +46,7 @@
       <preference id="homesuff_pref" name="extensions.squalit.homesuffix" type="string"/>
       <preference id="cellsuff_pref" name="extensions.squalit.cellsuffix" type="string"/>
       <preference id="refreshint_pref" name="extensions.squalit.refreshint" type="int"/>
+      <preference id="plus_pref" name="extensions.squalit.plus" type="string"/>
     </preferences>
     <commandset><command id="squalit_updateab" oncommand="squalitprefs.updateab()"/></commandset>
 
@@ -65,6 +66,10 @@
         <row align="center">
           <label control="refreshint_text" value="&squalit.refreshint.label;:" accesskey="&squalit.refreshint.accesskey;"/>
           <textbox id="refreshint_text" preference="refreshint_pref" size="2" />
+        </row>
+        <row align="center">
+          <label control="plus_text" value="&squalit.plus.label;:" accesskey="&squalit.plus.accesskey;"/>
+          <textbox id="plus_text" preference="plus_pref" size="2" />
         </row>
       </rows>
     </grid>

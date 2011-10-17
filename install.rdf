@@ -7,13 +7,13 @@
       <Description>
         <em:locale>en</em:locale>
         <em:name>Squalit</em:name>
-        <em:description>Export address book entries to an SQLLite database for use by pycalledme</em:description>
+        <em:description>Export address book entries to an SQLLite database for use by callPopPy</em:description>
       </Description>
     </em:localized>
 
 
     <em:name>Squalit</em:name>
-    <em:description>Export address book entries to an SQLLite database for use by pycalledme</em:description>
+    <em:description>Export address book entries to an SQLLite database for use by callPopPy</em:description>
     <em:version>0.1.1</em:version>
     <em:creator>Chris Hastie</em:creator>
     <em:homepageURL>http://www.oak-wood.co.uk/</em:homepageURL>

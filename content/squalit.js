@@ -58,7 +58,7 @@ var squalit = {
       this.homesuffix = this.prefs.getComplexValue("homesuffix", Components.interfaces.nsIPrefLocalizedString).data;
       this.worksuffix = this.prefs.getComplexValue("worksuffix", Components.interfaces.nsIPrefLocalizedString).data;
       this.cellsuffix = this.prefs.getComplexValue("cellsuffix", Components.interfaces.nsIPrefLocalizedString).data;
-      this.digits = this.prefs.getIntPref("digits");
+      this.plus = this.prefs.getCharPref("plus");
       this.refreshint = this.prefs.getIntPref("refreshint");
       this.dbFile = this.prefs.getComplexValue("dbfile", Components.interfaces.nsIRelativeFilePref).file;
     }
@@ -99,8 +99,8 @@ var squalit = {
           this.worksuffix = this.prefs.getComplexValue("worksuffix", Components.interfaces.nsIPrefLocalizedString).data;
           break;
 
-        case "digits":
-          this.digits = this.prefs.getIntPref("digits");
+        case "plus":
+          this.plus = this.prefs.getCharPref("plus");
           break;
 
         case "refreshint":
@@ -297,14 +297,13 @@ var squalit = {
           squalit.logger(1, "Query canceled or aborted!" + aReason.message);
       }
     });
-    this._export();
+    this._export(this.abpref.split(','));
     this.dbConnection.asyncClose();
   },
 
   sanitizenumber: function(num) {
-    num = num.replace(/^\+/g, '00');
+    num = num.replace(/^\+/g, this.plus);
     num = num.replace(/[^0-9]/g,'');
-    num = num.substr(-this.digits, this.digits);
     return num;
   },
 

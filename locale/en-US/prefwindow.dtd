@@ -9,6 +9,8 @@
 <!ENTITY squalit.cellsuff.accesskey "C">
 <!ENTITY squalit.refreshint.label "Update interval (minutes). 0 disables auto update">
 <!ENTITY squalit.refreshint.accesskey "U">
+<!ENTITY squalit.plus.label "Replace leading '+' with">
+<!ENTITY squalit.plus.accesskey "R">
 <!ENTITY squalit.addressbook.label "Address book(s) for auto export">
 <!ENTITY squalit.addressbook.accesskey "A">
 <!ENTITY squalit.nameformat.label "Format for exported names">
