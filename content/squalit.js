@@ -297,7 +297,7 @@ var squalit = {
           squalit.logger(1, "Query canceled or aborted!" + aReason.message);
       }
     });
-    this._export(this.abpref.split(','));
+    if (this.abpref.length > 0) this._export(this.abpref.split(','));
     this.dbConnection.asyncClose();
   },
 
