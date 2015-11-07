@@ -251,6 +251,8 @@ var squalit = {
 
   _dbInit: function() {
     squalit.logger(4, "Checking database connection");
+    // this check doesn't actually seem to work. It never finds a connection
+    // even when there is clearly one there with lots of pending queries
     if (this.dbConnection && this.dbConnection.connectionReady) {
       squalit.logger(4, "Existing database connection found");
       return
