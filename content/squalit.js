@@ -38,7 +38,9 @@
 
 var squalit = {
   isMain: false,
-
+  pendingQueries: 0,
+  maxPendingQueries: 100,
+  
   onLoad: function() {
     // initialization code
     this.initialized = true;
@@ -155,6 +157,7 @@ var squalit = {
 
   export: function () {
     squalit.logger(4, "Function export called");
+    if (this.isLongQueue()) return;
     if (this.abpref.length > 0) {
       var abArray = this.abpref.split(',');
       this._dbInit();
@@ -180,6 +183,7 @@ var squalit = {
 
   exportSelectedCards: function () {
     squalit.logger(4, "Function exportSelectedCards called");
+    if (this.isLongQueue()) return;
     var cards = GetSelectedAbCards();
     if (cards != null) {
       this._dbInit();
@@ -193,6 +197,7 @@ var squalit = {
 
   exportSelectedDirectory: function() {
     squalit.logger(4, "Function exportSelectedDirectory called");
+    if (this.isLongQueue()) return;
     var sABuri = GetSelectedDirectory();
     var addressBook = this.abManager.getDirectory(sABuri);
     if (addressBook != null) {
@@ -245,6 +250,11 @@ var squalit = {
   },
 
   _dbInit: function() {
+    squalit.logger(4, "Checking database connection");
+    if (this.dbConnection && this.dbConnection.connectionReady) {
+      squalit.logger(4, "Existing database connection found");
+      return
+    }
     squalit.logger(3, "Initialising database " +  this.dbFile.path);
 
     var dbService = Components.classes["@mozilla.org/storage/service;1"].
@@ -258,7 +268,7 @@ var squalit = {
       dbConnection = dbService.openDatabase(this.dbFile);
     }
     this.dbConnection = dbConnection;
-    this.updatesql = this.dbConnection.createStatement("REPLACE INTO numbers (tel, name) VALUES (:tel, :name)");
+    this.updatesql = this.dbConnection.createAsyncStatement("REPLACE INTO numbers (tel, name) VALUES (:tel, :name)");
   },
 
   _dbCreate: function(aDBService, aDBFile) {
@@ -273,9 +283,14 @@ var squalit = {
       aDBConnection.createTable(name, this.dbSchema.tables[name]);
   },
 
-  _dbUpdate: function(sNum, sName) {
+  _dbUpdate: function(sNum, sName, obj) {
     this.updatesql.params.tel = sNum;
     this.updatesql.params.name = sName;
+
+    this.pendingQueries ++;
+
+    // need to do this so that this.pendingQueries can be accessed from callbacks
+    var self = this;
 
     this.updatesql.executeAsync({
       handleError: function(aError) {
@@ -285,16 +300,25 @@ var squalit = {
       handleCompletion: function(aReason) {
         if (aReason != Components.interfaces.mozIStorageStatementCallback.REASON_FINISHED)
           squalit.logger(1, "Query canceled or aborted!" + aReason.message);
-        else squalit.logger(5, "Update query completed for " + sName);
+        else squalit.logger(5, "Update query completed for " + sName + "(" + self.pendingQueries + " remaining)");
+        self.pendingQueries --;
+        if (self.pendingQueries < 1)
+          squalit.logger(3, "All queries completed");
       }
     });
   },
   
   dbReset: function() {
     squalit.logger(4, "Function dbReset called");
+    if (this.isLongQueue()) return;
     this._dbInit();
     squalit.logger(3, "Truncating database");
-    var sql = this.dbConnection.createStatement("DELETE FROM numbers");
+    var sql = this.dbConnection.createAsyncStatement("DELETE FROM numbers");
+    this.pendingQueries ++;
+    
+    // need to do this so that this.pendingQueries can be accessed from callbacks
+    var self = this;
+    
     sql.executeAsync({
       handleError: function(aError) {
         squalit.logger(1, "Error: " + aError.message);
@@ -304,11 +328,25 @@ var squalit = {
         if (aReason != Components.interfaces.mozIStorageStatementCallback.REASON_FINISHED)
           squalit.logger(1, "Query canceled or aborted!" + aReason.message);
         else squalit.logger(4, "Truncation query completed");
+        self.pendingQueries --;
       }
     });
     if (this.abpref.length > 0) this._export(this.abpref.split(','));
     this.dbConnection.asyncClose();
     squalit.logger(4, "Function dbReset syncronous completion");
+  },
+  
+  // A sanity check. If the number of pending queries exceeds
+  // maxPendingQueries returns true
+  isLongQueue: function() {
+    // if there are still more than 10 queries pending, don't try
+    // to add more address books to the queue
+    squalit.logger(4, this.pendingQueries + " queries are queued")
+    if (this.pendingQueries > this.maxPendingQueries) {
+      squalit.logger(2, this.pendingQueries + " queries still waiting. Skipping action" )
+      return true
+    }  
+    return false
   },
 
   sanitizenumber: function(num) {
