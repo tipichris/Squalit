@@ -300,10 +300,10 @@ var squalit = {
       },
 
       handleCompletion: function(aReason) {
+        self.pendingQueries --;
         if (aReason != Components.interfaces.mozIStorageStatementCallback.REASON_FINISHED)
           squalit.logger(1, "Query canceled or aborted!" + aReason.message);
         else squalit.logger(5, "Update query completed for " + sName + " (" + self.pendingQueries + " remaining)");
-        self.pendingQueries --;
         if (self.pendingQueries < 1)
           squalit.logger(3, "All queries completed");
       }
@@ -327,10 +327,10 @@ var squalit = {
       },
 
       handleCompletion: function(aReason) {
+        self.pendingQueries --;
         if (aReason != Components.interfaces.mozIStorageStatementCallback.REASON_FINISHED)
           squalit.logger(1, "Query canceled or aborted!" + aReason.message);
         else squalit.logger(4, "Truncation query completed");
-        self.pendingQueries --;
       }
     });
     if (this.abpref.length > 0) this._export(this.abpref.split(','));
