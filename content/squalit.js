@@ -171,7 +171,7 @@ var squalit = {
         window.open('chrome://squalit/content/options.xul', 'options', 'chrome,resizable=1');
       }
     }
-    squalit.logger(4, "Function export syncronous completion");
+    squalit.logger(4, "Function export synchronous completion");
   },
 
   // obj should be this. Used because setTimeout executes in a different context
@@ -192,7 +192,7 @@ var squalit = {
       }
       this.dbConnection.asyncClose();
     }
-    squalit.logger(4, "Function exportSelectedCards syncronous completion");
+    squalit.logger(4, "Function exportSelectedCards synchronous completion");
   },
 
   exportSelectedDirectory: function() {
@@ -206,7 +206,7 @@ var squalit = {
       this._exportBook(addressBook);
       this.dbConnection.asyncClose();
     }
-    squalit.logger(4, "Function exportSelectedDirectory syncronous completion");
+    squalit.logger(4, "Function exportSelectedDirectory synchronous completion");
   },
 
   _export: function(abArray) {
@@ -335,7 +335,7 @@ var squalit = {
     });
     if (this.abpref.length > 0) this._export(this.abpref.split(','));
     this.dbConnection.asyncClose();
-    squalit.logger(4, "Function dbReset syncronous completion");
+    squalit.logger(4, "Function dbReset synchronous completion");
   },
   
   // A sanity check. If the number of pending queries exceeds
