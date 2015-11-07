@@ -300,7 +300,7 @@ var squalit = {
       handleCompletion: function(aReason) {
         if (aReason != Components.interfaces.mozIStorageStatementCallback.REASON_FINISHED)
           squalit.logger(1, "Query canceled or aborted!" + aReason.message);
-        else squalit.logger(5, "Update query completed for " + sName + "(" + self.pendingQueries + " remaining)");
+        else squalit.logger(5, "Update query completed for " + sName + " (" + self.pendingQueries + " remaining)");
         self.pendingQueries --;
         if (self.pendingQueries < 1)
           squalit.logger(3, "All queries completed");
@@ -363,8 +363,8 @@ var squalit = {
       var addressBook = allAddressBooks.getNext()
                                     .QueryInterface(Components.interfaces.nsIAbDirectory);
       if (addressBook instanceof Components.interfaces.nsIAbDirectory) {
-        squalit.logger(5, "Directory Name:" + addressBook.dirName);
-        squalit.logger(5, "Directory URI:" + addressBook.URI);
+        squalit.logger(5, "Directory Name: " + addressBook.dirName);
+        squalit.logger(5, "Directory URI: " + addressBook.URI);
       }
     }
   },
