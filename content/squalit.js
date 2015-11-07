@@ -107,7 +107,7 @@ var squalit = {
           this.refreshint = this.prefs.getIntPref("refreshint");
           if (this.intervalID) window.clearInterval(this.intervalID);
           if (this.refreshint && this.isMain) {
-            this.intervalID = window.setInterval(this.autoExport.bind(this), this.refreshint * 1000 * 60);
+            this.intervalID = window.setInterval(this.autoExport, this.refreshint * 1000 * 60, this);
           }
           break;
 
@@ -154,6 +154,7 @@ var squalit = {
   },
 
   export: function () {
+    squalit.logger(4, "Function export called");
     if (this.abpref.length > 0) {
       var abArray = this.abpref.split(',');
       this._dbInit();
@@ -167,6 +168,7 @@ var squalit = {
         window.open('chrome://squalit/content/options.xul', 'options', 'chrome,resizable=1');
       }
     }
+    squalit.logger(4, "Function export syncronous completion");
   },
 
   // obj should be this. Used because setTimeout executes in a different context
@@ -177,6 +179,7 @@ var squalit = {
   },
 
   exportSelectedCards: function () {
+    squalit.logger(4, "Function exportSelectedCards called");
     var cards = GetSelectedAbCards();
     if (cards != null) {
       this._dbInit();
@@ -185,9 +188,11 @@ var squalit = {
       }
       this.dbConnection.asyncClose();
     }
+    squalit.logger(4, "Function exportSelectedCards syncronous completion");
   },
 
   exportSelectedDirectory: function() {
+    squalit.logger(4, "Function exportSelectedDirectory called");
     var sABuri = GetSelectedDirectory();
     var addressBook = this.abManager.getDirectory(sABuri);
     if (addressBook != null) {
@@ -196,11 +201,12 @@ var squalit = {
       this._exportBook(addressBook);
       this.dbConnection.asyncClose();
     }
+    squalit.logger(4, "Function exportSelectedDirectory syncronous completion");
   },
 
   _export: function(abArray) {
     for (n in abArray) {
-      squalit.logger(5, "Going to export from " + abArray[n]);
+      squalit.logger(4, "Going to export from " + abArray[n]);
       var sAddressBook = this.abManager.getDirectory(abArray[n]);
       if (sAddressBook != null) {
         squalit.logger(3, "Exporting from " + sAddressBook.dirName);
@@ -239,7 +245,7 @@ var squalit = {
   },
 
   _dbInit: function() {
-    squalit.logger(3, "Using database " +  this.dbFile.path);
+    squalit.logger(3, "Initialising database " +  this.dbFile.path);
 
     var dbService = Components.classes["@mozilla.org/storage/service;1"].
       getService(Components.interfaces.mozIStorageService);
@@ -252,6 +258,7 @@ var squalit = {
       dbConnection = dbService.openDatabase(this.dbFile);
     }
     this.dbConnection = dbConnection;
+    this.updatesql = this.dbConnection.createStatement("REPLACE INTO numbers (tel, name) VALUES (:tel, :name)");
   },
 
   _dbCreate: function(aDBService, aDBFile) {
@@ -267,11 +274,10 @@ var squalit = {
   },
 
   _dbUpdate: function(sNum, sName) {
-    var sql = this.dbConnection.createStatement("REPLACE INTO numbers (tel, name) VALUES (:tel, :name)");
-    sql.params.tel = sNum;
-    sql.params.name = sName;
+    this.updatesql.params.tel = sNum;
+    this.updatesql.params.name = sName;
 
-    sql.executeAsync({
+    this.updatesql.executeAsync({
       handleError: function(aError) {
         squalit.logger(1, "Error: " + aError.message);
       },
@@ -279,11 +285,13 @@ var squalit = {
       handleCompletion: function(aReason) {
         if (aReason != Components.interfaces.mozIStorageStatementCallback.REASON_FINISHED)
           squalit.logger(1, "Query canceled or aborted!" + aReason.message);
+        else squalit.logger(5, "Update query completed for " + sName);
       }
     });
   },
   
   dbReset: function() {
+    squalit.logger(4, "Function dbReset called");
     this._dbInit();
     squalit.logger(3, "Truncating database");
     var sql = this.dbConnection.createStatement("DELETE FROM numbers");
@@ -295,10 +303,12 @@ var squalit = {
       handleCompletion: function(aReason) {
         if (aReason != Components.interfaces.mozIStorageStatementCallback.REASON_FINISHED)
           squalit.logger(1, "Query canceled or aborted!" + aReason.message);
+        else squalit.logger(4, "Truncation query completed");
       }
     });
     if (this.abpref.length > 0) this._export(this.abpref.split(','));
     this.dbConnection.asyncClose();
+    squalit.logger(4, "Function dbReset syncronous completion");
   },
 
   sanitizenumber: function(num) {
