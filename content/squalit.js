@@ -283,7 +283,7 @@ var squalit = {
       aDBConnection.createTable(name, this.dbSchema.tables[name]);
   },
 
-  _dbUpdate: function(sNum, sName, obj) {
+  _dbUpdate: function(sNum, sName) {
     this.updatesql.params.tel = sNum;
     this.updatesql.params.name = sName;
 
