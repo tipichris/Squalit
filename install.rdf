@@ -14,7 +14,7 @@
 
     <em:name>Squalit</em:name>
     <em:description>Export address book entries to an SQLLite database for use by callPopPy</em:description>
-    <em:version>0.2.1</em:version>
+    <em:version>0.2.2</em:version>
     <em:creator>Chris Hastie</em:creator>
     <em:homepageURL>http://www.oak-wood.co.uk/oss/squalit</em:homepageURL>
     <em:type>2</em:type>
