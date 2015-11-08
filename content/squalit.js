@@ -268,12 +268,14 @@ var squalit = {
       dbConnection = this._dbCreate(dbService, this.dbFile);
     else {
       dbConnection = dbService.openDatabase(this.dbFile);
+      if (!dbConnection.tableExists('numbers')) this._dbCreateTables(dbConnection);
     }
     this.dbConnection = dbConnection;
     this.updatesql = this.dbConnection.createAsyncStatement("REPLACE INTO numbers (tel, name) VALUES (:tel, :name)");
   },
 
   _dbCreate: function(aDBService, aDBFile) {
+    squalit.logger(3, "Creating database");
     aDBFile.create(Components.interfaces.nsIFile.NORMAL_FILE_TYPE, 0600);
     var dbConnection = aDBService.openDatabase(aDBFile);
     this._dbCreateTables(dbConnection);
@@ -281,6 +283,7 @@ var squalit = {
   },
 
   _dbCreateTables: function(aDBConnection) {
+    squalit.logger(3, "Creating database tables");
     for(var name in this.dbSchema.tables)
       aDBConnection.createTable(name, this.dbSchema.tables[name]);
   },
