@@ -46,7 +46,7 @@ var squalit = {
     this.initialized = true;
     this.strings = document.getElementById("squalit-strings");
     this.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.squalit.");
-    this.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
+    this.prefs.QueryInterface(Components.interfaces.nsIPrefBranch);
     this.prefs.addObserver("", this, false);
     this.console = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
     squalit.logger(5, "Initialising");
